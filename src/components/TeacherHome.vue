@@ -53,54 +53,53 @@
 </template>
 
 <script>
-  import firebase from 'firebase';
-  import {mapState, mapActions} from 'vuex';
+import firebase from 'firebase';
+import { mapState, mapActions } from 'vuex';
 
-  export default {
-    computed: {
-      ...mapState(['user', 'classrooms']),
-    },
-    data: () => ({
-      valid: true,
-      item: {},
-      classroomName: '',
-      classroomNameRules: [
-        v => !!v || 'Classroom name is required',
-        v => v.length <= 20 || 'Name must be fewer than 20 characters',
-      ],
-    }),
-    created() {
-      this.fetchClassrooms()
-        // .then(this.updateUser());
-    },
-    methods: {
-      ...mapActions(['fetchClassrooms']),
-      logOut() {
-        firebase
-          .auth()
-          .signOut()
-          .then(() => {
-            this.$router.replace('Auth');
-          });
-      },
-      updateUser() {
-        this.$store.dispatch('updateUser', {
-          Email: this.user.email,
-          DisplayName: this.user.displayName,
-          id: this.user.uid,
-        });
-      },
-      submit() {
-        this.$store
-          .dispatch('createClassroom', {
-            ClassName: this.classroomName,
-            TeacherId: this.user.uid,
-          })
-          .then(() => {
-            // clear the form
-            this.classroomName = '';
-          });
-      },
-    },
-  };
+export default {
+	computed: {
+		...mapState(['user', 'classrooms']),
+	},
+	data: () => ({
+		valid: true,
+		item: {},
+		classroomName: '',
+		classroomNameRules: [
+			v => !!v || 'Classroom name is required',
+			v => v.length <= 20 || 'Name must be fewer than 20 characters',
+		],
+	}),
+	created() {
+		this.fetchClassrooms().then(this.updateUser());
+	},
+	methods: {
+		...mapActions(['fetchClassrooms']),
+		logOut() {
+			firebase
+				.auth()
+				.signOut()
+				.then(() => {
+					this.$router.replace('Auth');
+				});
+		},
+		updateUser() {
+			this.$store.dispatch('updateUser', {
+				Email: this.user.email,
+				DisplayName: this.user.displayName,
+				id: this.user.uid,
+			});
+		},
+		submit() {
+			this.$store
+				.dispatch('createClassroom', {
+					ClassName: this.classroomName,
+					TeacherId: this.user.uid,
+				})
+				.then(() => {
+					// clear the form
+					this.classroomName = '';
+				});
+		},
+	},
+};
 </script>
