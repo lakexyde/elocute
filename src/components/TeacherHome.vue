@@ -4,51 +4,54 @@
             <v-flex xs1 offset-xs11>
                 <v-btn color="info" @click="logOut">Logout</v-btn>
             </v-flex>
+            
+            <h1 text-xs-center>Welcome {{user.displayName}}</h1>
+                    
             <v-flex xs12>
                 <v-card tile color="tile" class="pa-4">
-                    <h1 text-xs-center>Welcome {{user.displayName}}</h1>
                     <v-form v-model="valid" ref="form" lazy-validation>
-                        <v-text-field
+                        <v-layout row>
+                            <v-text-field
                                 label="Classroom Name"
                                 v-model="classroomName"
                                 :rules="classroomNameRules"
                                 :counter="20"
                                 required
-                        ></v-text-field>
-                        <v-btn class="info"
-                               @click="submit"
-                               :disabled="!valid"
-                        >
-                            create a classroom
-                        </v-btn>
+                            ></v-text-field>
+                            <v-btn class="info"
+                                @click="submit"
+                                :disabled="!valid"
+                            >
+                                create a classroom
+                            </v-btn>
+                        </v-layout>
                     </v-form>
                 </v-card>
             </v-flex>
         </v-layout>
 
-        <h3 class="pa-4">My Classrooms</h3>
+        <h3 class="pa-4" v-if="classrooms.length">My Classrooms</h3>
 
-        <v-card color="tile">
+        
             <v-layout row wrap color="tile">
                 <v-flex xs4
                         v-for="item in classrooms"
                         :key="item.id"
                 >
-                    <v-card flat tile>
-
-                        <h3>
-                            <router-link :to="{
+                    <v-card class="pa-2 info-card" color="info">
+                        
+                            <router-link class="white-link" :to="{
 								name: 'ClassroomHome',
 								params: { id: item.id }
 							 }">
-                                {{item.ClassName}}
+                                <h3 class="white-link">{{item.ClassName}}</h3>
                             </router-link>
-                        </h3>
-
+                      
                     </v-card>
+                    
                 </v-flex>
             </v-layout>
-        </v-card>
+       
     </v-container>
 </template>
 
